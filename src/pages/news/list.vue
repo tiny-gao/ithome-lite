@@ -1,17 +1,5 @@
 <template lang="pug">
 .container
-  swiper.slider-wrap(
-    autoplay,
-    indicator-dots,
-    circular,
-    indicator-color="rgba(255, 255, 255, .3)",
-    indicator-active-color="rgba(210, 34, 34, .7)")
-    swiper-item(
-      v-for="slide of slides",
-      :key="slide.title")
-      .slider-item(@click="$router.push(slide.link)")
-        .slider-title {{slide.title}}
-        img.slider-img(:src="slide.image", mode="aspectFill")
   .news-wrap
     news-item(
       v-for="item of news",

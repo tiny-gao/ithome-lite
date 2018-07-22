@@ -10,7 +10,8 @@ const store = new Vuex.Store({
   state: {
     slides: [],
     news: [],
-    topics: []
+    topics: [],
+    hasLogin: false
   },
   mutations: {
     slides (state, data) {

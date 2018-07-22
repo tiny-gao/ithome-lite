@@ -1,8 +1,8 @@
 import request from './request'
 
-const baseUrlApi = 'https://api.ithome.com'
+const baseUrlApi = 'http://192.168.199.120:9091/v1/api/'
 const baseUrlDyn = 'https://dyn.ithome.com'
-const baseUrlQuan = 'https://apiquan.ithome.com'
+const baseUrlQuan = 'http://192.168.199.120:9091/v1/api/'
 
 const api = {
   getNewsList: (r) => request.get('/json/newslist/news', null, {
@@ -21,12 +21,8 @@ const api = {
   getSlides: () => request.get('/xml/slide/slide.xml', null, {
     baseURL: baseUrlApi
   }),
-  getTopics: (r) => request.get('/api/post', {
-    categoryid: 0,
-    type: 0,
-    orderTime: r,
-    visistCount: '',
-    pageLength: ''
+  getTopics: (page) => request.get('/task/listpage', {
+    page: page
   }, {
     baseURL: baseUrlQuan
   }),

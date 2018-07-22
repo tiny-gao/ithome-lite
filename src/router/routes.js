@@ -1,5 +1,19 @@
 module.exports = [
   {
+    path: '/pages/profile/index',
+    name: 'My',
+    config: {
+      navigationBarTitleText: '关于我'
+    }
+  },
+  {
+    path: '/pages/profile/bind',
+    name: 'Bind',
+    config: {
+      navigationBarTitleText: '绑定账号'
+    }
+  },
+  {
     path: '/pages/news/list',
     name: 'NewsList',
     config: {
