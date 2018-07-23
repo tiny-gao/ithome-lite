@@ -5,6 +5,12 @@ const baseUrlDyn = 'https://dyn.ithome.com'
 const baseUrlQuan = 'http://192.168.199.120:9091/v1/api/'
 
 const api = {
+  getWxSns: (r) => request.post('/user/wxBind', r, {
+    baseURL: baseUrlApi
+  }),
+  unBind: (r) => request.get('/user/wxUnbind', null, {
+    baseURL: baseUrlApi
+  }),
   getNewsList: (r) => request.get('/json/newslist/news', null, {
     baseURL: baseUrlApi
   }),

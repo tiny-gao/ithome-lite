@@ -6,32 +6,43 @@ view(class='container')
       block(v-if="hasUserInfo")
         image(class="userinfo-avatar" v-bind:src="userInfo.avatarUrl")
         text(class="userinfo-nickname") {{userInfo.nickName}}
+        text(class="page-body-text" v-if='hasBind') 已与EPS账号`{{mobileNum}}`绑定
       block(v-if="!hasUserInfo")
         text(class='page-body-text') 未获取
         text(class='page-body-text') 点击绿色按钮获取用户头像和昵称
     view(class="btn-area")
-        button(v-on:click='getUserInfo',type="primary", v-if='!hasUserInfo') 获取用户信息
+        button(v-on:click='getUserInfo',type="primary" v-if="!hasUserInfo") 获取用户信息
         navigator(url="bind" hover-class="navigator-hover")
           button(type="primary" v-if='hasUserInfo && !hasBind') 绑定EPS系统账号
-        button(v-if='hasBind') 解除绑定EPS系统账号
+        button(v-if='hasBind' v-on:click='unBind') 解除绑定EPS系统账号
         button(v-on:click='clear' type="warn" v-if='hasUserInfo') 清空用户信息
 </template>
 
 <script>
   import wx from 'wx'
   import store from '@/store'
+  import api from '@/utils/api'
   export default {
     data () {
       return {
-        hasUserInfo: false,
-        hasBind: false,
-        userInfo: {
-        }
+        userInfo: store.state.userInfo,
+        hasLogin: store.state.hasLogin,
+        hasBind: store.state.hasBind,
+        hasUserInfo: store.state.hasUserInfo,
+        mobileNum: store.state.mobileNum
       }
+    },
+    mounted () {
+      this.userInfo = store.state.userInfo
+      this.hasLogin = store.state.hasLogin
+      this.hasBind = store.state.hasBind
+      this.hasUserInfo = store.state.hasUserInfo
+      this.mobileNum = store.state.mobileNum
     },
     methods: {
       getUserInfo () {
         var that = this
+        console.info(that.$store.state)
         if (store.state.hasLogin === false) {
           wx.login({
             success: _getUserInfo
@@ -43,20 +54,64 @@ view(class='container')
         function _getUserInfo () {
           wx.getUserInfo({
             success: function (res) {
-              console.info('hha')
-              console.info(that.hasUserInfo)
+              store.state.hasLogin = true
+              store.state.hasUserInfo = true
+              store.state.userInfo = res.userInfo
               that.hasUserInfo = true
+              that.hasLogin = true
               that.userInfo = res.userInfo
-              console.info(that.userInfo)
             }
           })
         }
       },
+      unBind () {
+        api.unBind().then(result => {
+          if (result.code !== 200) {
+            wx.showToast({
+              title: result.msg,
+              icon: 'none'
+            })
+          } else {
+            store.state.token = ''
+            store.state.hasBind = false
+            this.hasBind = false
+            wx.showToast({
+              title: '解绑成功!'
+            })
+          }
+        })
+      },
+      clearData () {
+        this.$store.state.hasLogin = false
+        this.hasLogin = false
+        this.$store.state.hasBind = false
+        this.hasBind = false
+        this.$store.state.hasUserInfo = false
+        this.hasUserInfo = false
+        this.$store.state.userInfo = {}
+        this.userInfo = {}
+      },
       clear () {
-        var that = this
-        that.hasUserInfo = false
-        that.hasBind = false
-        that.userInfo = {}
+        let that = this
+        wx.showModal({
+          title: '警告',
+          content: '清除会解除绑定和清空此程序的用户数据',
+          cancelText: '取消',
+          confirmText: '确定',
+          icon: 'WARN',
+          success: function (res) {
+            if (res.confirm) {
+              if (that.hasBind) {
+                that.unBind()
+              }
+              that.clearData()
+              wx.showToast({
+                title: '清除成功!'
+              })
+            } else if (res.cancel) {
+            }
+          }
+        })
       }
     }
   }

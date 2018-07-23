@@ -11,7 +11,12 @@ const store = new Vuex.Store({
     slides: [],
     news: [],
     topics: [],
-    hasLogin: false
+    hasLogin: false,
+    token: '',
+    hasUserInfo: false,
+    hasBind: false,
+    userInfo: {},
+    mobileNum: ''
   },
   mutations: {
     slides (state, data) {
