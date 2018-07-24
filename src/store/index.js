@@ -16,7 +16,10 @@ const store = new Vuex.Store({
     hasUserInfo: false,
     hasBind: false,
     userInfo: {},
-    mobileNum: ''
+    mobileNum: '',
+    name: '',
+    compileTimeout: '',
+    clockIn: false
   },
   mutations: {
     slides (state, data) {

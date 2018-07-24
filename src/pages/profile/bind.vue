@@ -26,7 +26,6 @@
   import wx from 'wx'
   import store from '@/store'
   import api from '@/utils/api'
-
   export default {
     data () {
       return {

@@ -11,6 +11,12 @@ const api = {
   unBind: (r) => request.get('/user/wxUnbind', null, {
     baseURL: baseUrlApi
   }),
+  getEpsUserInfo: (r) => request.get('/user/userInfo', null, {
+    baseURL: baseUrlApi
+  }),
+  reportLocation: (r) => request.post('/eps/report', r, {
+    baseURL: baseUrlApi
+  }),
   getNewsList: (r) => request.get('/json/newslist/news', null, {
     baseURL: baseUrlApi
   }),

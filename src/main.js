@@ -3,11 +3,9 @@ import store from '@/store'
 import App from '@/App'
 import MpvueRouterPatch from 'mpvue-router-patch'
 import wx from 'wx'
-
 Vue.config.productionTip = false
 Vue.use(MpvueRouterPatch)
 Vue.use(wx)
-
 const app = new Vue({
   store,
   ...App
