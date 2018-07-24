@@ -14,6 +14,9 @@ const api = {
   getEpsUserInfo: (r) => request.get('/user/userInfo', null, {
     baseURL: baseUrlApi
   }),
+  getEpsToken: (r) => request.get('/user/getToken/' + r, null, {
+    baseURL: baseUrlApi
+  }),
   reportLocation: (r) => request.post('/eps/report', r, {
     baseURL: baseUrlApi
   }),

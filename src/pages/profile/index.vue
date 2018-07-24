@@ -13,7 +13,7 @@ view(class='container')
     view(class="btn-area")
         button(v-on:click='getUserInfo',type="primary" v-if="!hasUserInfo") 获取用户信息
         navigator(url="bind" hover-class="navigator-hover")
-          button(type="primary" v-if='hasUserInfo && !hasBind') 绑定EPS系统账号
+          button(type="primary" v-if='!hasBind && hasUserInfo') 绑定EPS系统账号
         button(v-if='hasBind' v-on:click='unBind') 解除绑定EPS系统账号
         button(v-on:click='clear' type="warn" v-if='hasUserInfo') 清空用户信息
 </template>
@@ -51,9 +51,24 @@ view(class='container')
           _getUserInfo()
         }
 
-        function _getUserInfo () {
+        function _getUserInfo (login) {
           wx.getUserInfo({
             success: function (res) {
+              // 如果有绑定过，则刷新状态信息
+              api.getEpsToken(login.code).then(result => {
+                if (result.code === 200) {
+                  store.state.token = result.data.token
+                  store.state.hasBind = true
+                  that.hasBind = true
+                  that.mobileNum = result.data.mobileNum
+                  store.state.mobileNum = that.mobileNum
+                } else {
+                  store.state.token = ''
+                  store.state.hasBind = false
+                  that.hasBind = false
+                  store.state.mobileNum = ''
+                }
+              })
               store.state.hasLogin = true
               store.state.hasUserInfo = true
               store.state.userInfo = res.userInfo
