@@ -16,7 +16,7 @@ export default {
   // 这个字段走 app.json
   config: {
     pages: [
-      'pages/profile/index'
+      'pages/news/list'
     ], // Will be filled in webpack
     window: {
       backgroundTextStyle: 'light',
@@ -33,21 +33,21 @@ export default {
       borderStyle: 'black',
       list: [
         {
+          pagePath: 'pages/news/list',
+          text: '打卡',
+          iconPath: 'static/images/home.png',
+          selectedIconPath: 'static/images/home-actived.png'
+        }, {
+          pagePath: 'pages/quanzi/list',
+          text: '任务',
+          iconPath: 'static/images/note.png',
+          selectedIconPath: 'static/images/note-actived.png'
+        },
+        {
           pagePath: 'pages/profile/index',
           text: '我的',
           iconPath: 'static/images/profile.png',
           selectedIconPath: 'static/images/profile-actived.png'
-        },
-        {
-          pagePath: 'pages/news/list',
-          text: '咨询1',
-          iconPath: 'static/assets/news.png',
-          selectedIconPath: 'static/assets/news-active.png'
-        }, {
-          pagePath: 'pages/quanzi/list',
-          text: '2222',
-          iconPath: 'static/assets/quanzi.png',
-          selectedIconPath: 'static/assets/quanzi-active.png'
         }]
     }
   }

@@ -10,7 +10,7 @@
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
 	"appid": "wx8d062051de50f1ed",
-	"projectname": "ithome",
+	"projectname": "eps-wx",
 	"condition": {
 		"search": {
 			"current": -1,
