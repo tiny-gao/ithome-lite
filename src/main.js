@@ -38,7 +38,7 @@ export default {
           iconPath: 'static/images/home.png',
           selectedIconPath: 'static/images/home-actived.png'
         }, {
-          pagePath: 'pages/quanzi/list',
+          pagePath: 'pages/task/list',
           text: '任务',
           iconPath: 'static/images/note.png',
           selectedIconPath: 'static/images/note-actived.png'

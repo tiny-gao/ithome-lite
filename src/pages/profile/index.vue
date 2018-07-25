@@ -56,7 +56,7 @@ view(class='container')
             success: function (res) {
               // 如果有绑定过，则刷新状态信息
               api.getEpsToken(login.code).then(result => {
-                if (result.code === 200) {
+                if (result.data) {
                   store.state.token = result.data.token
                   store.state.hasBind = true
                   that.hasBind = true

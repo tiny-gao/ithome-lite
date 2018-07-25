@@ -43,6 +43,18 @@ export function formatNewsList (news) {
   }
 }
 
+export function formatTasksList (tasks) {
+  const { id, title, creator, createAt, worker, taskStatus } = tasks
+  return {
+    id,
+    title,
+    creator: creator.name,
+    createAt: createAt,
+    worker: worker.name,
+    status: taskStatus,
+    link: `/task/get/${id}`
+  }
+}
 export function formatTopicList (topic) {
   const { id, c, cn, t, vc, rc, rt, un, uid } = topic
   const headpath = `00${String(uid).padStart(7, '0').replace(/\B([0-9]{2})/g, '/$1')}_60.jpg`

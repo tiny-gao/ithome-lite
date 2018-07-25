@@ -29,6 +29,14 @@ module.exports = [
     }
   },
   {
+    path: '/pages/task/list',
+    name: 'TaskList',
+    config: {
+      navigationBarTitleText: '任务',
+      enablePullDownRefresh: true
+    }
+  },
+  {
     path: '/pages/quanzi/detail',
     name: 'QuanziDetail',
     config: {

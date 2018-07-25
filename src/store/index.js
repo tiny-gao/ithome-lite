@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import xml2json from 'xmlstring2json'
-import { formatSlideList, formatNewsList, formatTopicList } from '@/utils'
+import { formatSlideList, formatNewsList, formatTopicList, formatTasksList } from '@/utils'
 import api from '@/utils/api'
+import wx from 'wx'
 
 Vue.use(Vuex)
 
@@ -11,6 +12,7 @@ const store = new Vuex.Store({
     slides: [],
     news: [],
     topics: [],
+    tasks: [],
     hasLogin: false,
     token: '',
     hasUserInfo: false,
@@ -30,6 +32,9 @@ const store = new Vuex.Store({
     },
     topics (state, data) {
       state.topics = data
+    },
+    tasks (state, data) {
+      state.tasks = data
     }
   },
   actions: {
@@ -53,10 +58,43 @@ const store = new Vuex.Store({
         commit('news', state.news.concat(formatedNews))
       }
     },
+    async getTasks ({ state, commit }, init) {
+      let lastId = 0
+      if (!init) {
+        const lastTask = state.tasks[state.tasks.length - 1]
+        lastId = lastTask.id
+      }
+      const tasks = await api.getTasks(lastId).then(result => {
+        if (result.code !== 200) {
+          wx.showToast({
+            title: result.msg,
+            icon: 'none'
+          })
+          return null
+        } else {
+          if (result.data.length === 0) {
+            wx.showToast({
+              title: '没有新任务',
+              icon: 'none'
+            })
+          }
+          return result.data
+        }
+      })
+      console.info(tasks)
+      if (!tasks) return
+      const formatedTasks = tasks.map(formatTasksList)
+      if (init) {
+        commit('tasks', formatedTasks)
+      } else {
+        commit('tasks', state.tasks.concat(formatedTasks))
+      }
+      console.info(state.tasks)
+    },
     async getTopics ({ state, commit }, init) {
       let replytime = Date.now()
       if (!init) {
-        const lastTopic = state.topics[state.topics.length - 1]
+        const lastTopic = state.tasks[state.tasks.length - 1]
         replytime = lastTopic.replytime.replace(/[^0-9]/ig, '')
       }
       const topics = await api.getTopics(replytime)

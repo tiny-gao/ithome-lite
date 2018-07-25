@@ -20,6 +20,9 @@ const api = {
   reportLocation: (r) => request.post('/eps/report', r, {
     baseURL: baseUrlApi
   }),
+  getTasks: (maxId) => request.get(`/task/app/listpage`, {maxId: maxId}, {
+    baseURL: baseUrlApi
+  }),
   getNewsList: (r) => request.get('/json/newslist/news', null, {
     baseURL: baseUrlApi
   }),
