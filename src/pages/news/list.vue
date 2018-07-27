@@ -74,11 +74,16 @@ export default {
       this.showMarkerInfo(this.markersData, id)
     },
     handleClockIn: function () {
-      store.state.clockIn = true
-      this.clockIn = true
-      wx.showToast({
-        title: '打卡上班成功!',
-        icon: 'success'
+      api.getEpsUserInfo().then(result => {
+        console.info('result', result)
+        if (result.code === 200) {
+          store.state.clockIn = true
+          this.clockIn = true
+          wx.showToast({
+            title: '上班打卡成功!',
+            icon: 'success'
+          })
+        }
       })
     },
     handleClockOut: function () {

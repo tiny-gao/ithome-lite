@@ -37,6 +37,13 @@ module.exports = [
     }
   },
   {
+    path: '/pages/task/detail',
+    name: 'TaskDetail',
+    config: {
+      navigationBarTitleText: '任务详情'
+    }
+  },
+  {
     path: '/pages/quanzi/detail',
     name: 'QuanziDetail',
     config: {

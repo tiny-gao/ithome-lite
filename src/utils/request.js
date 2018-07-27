@@ -1,7 +1,6 @@
 import wx from 'wx'
 import Fly from 'flyio'
 import store from '@/store'
-
 const request = new Fly()
 
 request.interceptors.request.use((request) => {
@@ -15,6 +14,17 @@ request.interceptors.request.use((config) => {
 request.interceptors.response.use(
   (response, promise) => {
     wx.hideNavigationBarLoading()
+    if (response.data.code === 40002) {
+      wx.switchTab({
+        url: '../profile/index',
+        success: function () {
+          wx.showToast({
+            title: response.data.msg,
+            icon: 'none'
+          })
+        }
+      })
+    }
     return promise.resolve(response.data)
   },
   (err, promise) => {

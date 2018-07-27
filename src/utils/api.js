@@ -5,6 +5,7 @@ const baseUrlDyn = 'https://dyn.ithome.com'
 const baseUrlQuan = 'http://192.168.199.120:9091/v1/api/'
 
 const api = {
+  baseUrl: 'http://192.168.199.120:9091/',
   getWxSns: (r) => request.post('/user/wxBind', r, {
     baseURL: baseUrlApi
   }),
@@ -21,6 +22,12 @@ const api = {
     baseURL: baseUrlApi
   }),
   getTasks: (maxId) => request.get(`/task/app/listpage`, {maxId: maxId}, {
+    baseURL: baseUrlApi
+  }),
+  getTask: (id) => request.get(`/task/get`, {id: id}, {
+    baseURL: baseUrlApi
+  }),
+  taskChangeStatus: (id, status) => request.post('/task/changeStatus', {id: id, taskStatus: status}, {
     baseURL: baseUrlApi
   }),
   getNewsList: (r) => request.get('/json/newslist/news', null, {

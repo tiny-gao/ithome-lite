@@ -49,11 +49,15 @@ export function formatTasksList (tasks) {
     id,
     title,
     creator: creator.name,
-    createAt: createAt,
+    createAt: `${createAt.date.year}-${PrefixInteger(createAt.date.month, 2)}-${PrefixInteger(createAt.date.day, 2)}` +
+    ` ${PrefixInteger(createAt.time.hour, 2)}:${PrefixInteger(createAt.time.minute, 2)}:${PrefixInteger(createAt.time.second, 2)}`,
     worker: worker.name,
     status: taskStatus,
     link: `/task/get/${id}`
   }
+}
+function PrefixInteger (num, n) {
+  return (Array(n).join(0) + num).slice(-n)
 }
 export function formatTopicList (topic) {
   const { id, c, cn, t, vc, rc, rt, un, uid } = topic

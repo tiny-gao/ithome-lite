@@ -11,6 +11,9 @@ const app = new Vue({
   ...App
 })
 app.$mount()
+var EventEmitter = require('events').EventEmitter
+var ee = new EventEmitter()
+ee.setMaxListeners(0)
 
 export default {
   // 这个字段走 app.json

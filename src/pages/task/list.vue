@@ -5,6 +5,7 @@
       v-for="task of tasks",
       :task="task"
       :key="task.id")
+  .nomore 没有更多任务，请下拉刷新
 </template>
 
 <script>
@@ -16,12 +17,16 @@ export default {
   components: {
     taskItem
   },
+  onShow () {
+    this.refresh()
+  },
   computed: {
     ...mapState([
       'tasks'
     ])
   },
   mounted () {
+    console.info('mounted')
     this.refresh()
   },
   onPullDownRefresh () {
@@ -46,4 +51,11 @@ export default {
 </script>
 
 <style lang="less">
+  .nomore {
+    width: 100%;
+    line-height: 50px;
+    text-align: center;
+    font-size: 14px;
+    color: #ddd;
+  }
 </style>
