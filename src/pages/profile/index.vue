@@ -20,30 +20,24 @@ view(class='container')
 
 <script>
   import wx from 'wx'
-  import store from '@/store'
   import api from '@/utils/api'
+  import { mapState } from 'vuex'
+  import store from '@/store'
   export default {
-    data () {
-      return {
-        userInfo: store.state.userInfo,
-        hasLogin: store.state.hasLogin,
-        hasBind: store.state.hasBind,
-        hasUserInfo: store.state.hasUserInfo,
-        mobileNum: store.state.mobileNum
-      }
-    },
-    mounted () {
-      this.userInfo = store.state.userInfo
-      this.hasLogin = store.state.hasLogin
-      this.hasBind = store.state.hasBind
-      this.hasUserInfo = store.state.hasUserInfo
-      this.mobileNum = store.state.mobileNum
+    computed: {
+      ...mapState([
+        'userInfo',
+        'hasLogin',
+        'hasBind',
+        'hasUserInfo',
+        'mobileNum',
+        'token'
+      ])
     },
     methods: {
       getUserInfo () {
         var that = this
-        console.info(that.$store.state)
-        if (store.state.hasLogin === false) {
+        if (that.hasLogin === false) {
           wx.login({
             success: _getUserInfo
           })
@@ -59,22 +53,17 @@ view(class='container')
                 if (result.data) {
                   store.state.token = result.data.token
                   store.state.hasBind = true
-                  that.hasBind = true
-                  that.mobileNum = result.data.mobileNum
-                  store.state.mobileNum = that.mobileNum
+                  store.state.mobileNum = result.data.mobileNum
                 } else {
                   store.state.token = ''
                   store.state.hasBind = false
-                  that.hasBind = false
                   store.state.mobileNum = ''
                 }
               })
-              store.state.hasLogin = true
               store.state.hasUserInfo = true
+              store.state.hasLogin = true
               store.state.userInfo = res.userInfo
-              that.hasUserInfo = true
-              that.hasLogin = true
-              that.userInfo = res.userInfo
+              console.info('userInfo', store.state.userInfo)
             }
           })
         }
@@ -89,7 +78,9 @@ view(class='container')
           } else {
             store.state.token = ''
             store.state.hasBind = false
-            this.hasBind = false
+            store.state.clockIn = false
+            store.state.mobileNum = ''
+            store.state.token = ''
             wx.showToast({
               title: '解绑成功!'
             })
@@ -97,14 +88,13 @@ view(class='container')
         })
       },
       clearData () {
-        this.$store.state.hasLogin = false
-        this.hasLogin = false
-        this.$store.state.hasBind = false
-        this.hasBind = false
-        this.$store.state.hasUserInfo = false
-        this.hasUserInfo = false
-        this.$store.state.userInfo = {}
-        this.userInfo = {}
+        store.state.hasLogin = false
+        store.state.hasBind = false
+        store.state.hasUserInfo = false
+        store.state.userInfo = {}
+        store.state.clockIn = false
+        store.state.mobileNum = ''
+        store.state.token = ''
       },
       clear () {
         let that = this

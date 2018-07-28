@@ -15,6 +15,9 @@ request.interceptors.response.use(
   (response, promise) => {
     wx.hideNavigationBarLoading()
     if (response.data.code === 40002) {
+      store.state.hasBind = false
+      store.state.clockIn = false
+      store.state.token = ''
       wx.switchTab({
         url: '../profile/index',
         success: function () {
@@ -30,7 +33,7 @@ request.interceptors.response.use(
   (err, promise) => {
     wx.hideNavigationBarLoading()
     wx.showToast({
-      title: err.message,
+      title: err.response.data.error,
       icon: 'none'
     })
     return promise.resolve()

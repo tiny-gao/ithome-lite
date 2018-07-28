@@ -9,8 +9,8 @@
 
 <script>
 import wx from 'wx'
-import store from '@/store/index'
 import api from '@/utils/api'
+import { mapState } from 'vuex'
 var amapFile = require('@/utils/amap-wx.js')
 
 export default {
@@ -18,8 +18,7 @@ export default {
     return {
       latitude: '',
       longitude: '',
-      textData: {},
-      clockIn: store.state.clockIn
+      textData: {}
     }
   },
   created () {
@@ -28,16 +27,18 @@ export default {
     }
     this.handleReportLocation()
   },
-
   computed: {
     timeOut: {
       set: function (val) {
-        store.state.compileTimeout = val
+        this.$store.state.compileTimeout = val
       },
       get: function () {
-        return store.state.compileTimeout
+        return this.$store.state.compileTimeout
       }
-    }
+    },
+    ...mapState([
+      'clockIn'
+    ])
   },
 
   mounted () {
@@ -74,11 +75,11 @@ export default {
       this.showMarkerInfo(this.markersData, id)
     },
     handleClockIn: function () {
+      console.info('a')
       api.getEpsUserInfo().then(result => {
         console.info('result', result)
         if (result.code === 200) {
-          store.state.clockIn = true
-          this.clockIn = true
+          this.$store.state.clockIn = true
           wx.showToast({
             title: '上班打卡成功!',
             icon: 'success'
@@ -87,8 +88,7 @@ export default {
       })
     },
     handleClockOut: function () {
-      store.state.clockIn = false
-      this.clockIn = false
+      this.$store.state.clockIn = false
       wx.showToast({
         title: '下班打卡成功!',
         icon: 'success'
@@ -97,7 +97,7 @@ export default {
     handleReportLocation: function () {
       let _this = this
       this.timeOut = setTimeout(() => {
-        if (store.state.hasBind && store.state.token && store.state.clockIn) {
+        if (this.$store.state.hasBind && this.$store.state.token && this.$store.state.clockIn) {
           var location = {'latitude': this.latitude, 'longitude': this.longitude}
           api.reportLocation(location).then(result => {
             // Nothing to do..

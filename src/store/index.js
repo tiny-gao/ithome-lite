@@ -7,7 +7,7 @@ import wx from 'wx'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
+export default new Vuex.Store({
   state: {
     slides: [],
     news: [],
@@ -35,6 +35,39 @@ const store = new Vuex.Store({
     },
     tasks (state, data) {
       state.tasks = data
+    },
+    hasLogin (state, data) {
+      state.hasLogin = data
+    },
+    token (state, data) {
+      state.token = data
+    },
+    hasUserInfo (state, data) {
+      state.hasUserInfo = data
+    },
+    hasBind (state, data) {
+      state.hasBind = data
+    },
+    userInfo (state, data) {
+      state.userInfo = data
+    },
+    mobileNum (state, data) {
+      state.mobileNum = data
+    },
+    name (state, data) {
+      state.name = data
+    },
+    compileTimeout (state, data) {
+      state.compileTimeout = data
+    },
+    clockIn (state, data) {
+      state.clockIn = data
+    },
+    INCREMENT (state) {
+      state.count++
+    },
+    DECREMENT (state) {
+      state.count--
     }
   },
   actions: {
@@ -108,5 +141,3 @@ const store = new Vuex.Store({
     }
   }
 })
-
-export default store
