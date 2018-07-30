@@ -1,6 +1,6 @@
 import request from './request'
 
-const baseUrlApi = 'https://eps.tinygao.cn/v1/api'
+const baseUrlApi = 'http://192.168.199.120:9091/v1/api'
 const baseUrlDyn = 'https://eps.tinygao.cn'
 const baseUrlQuan = 'https://eps.tinygao.cn/v1/api'
 
@@ -25,6 +25,9 @@ const api = {
     baseURL: baseUrlApi
   }),
   getTask: (id) => request.get(`/task/get`, {id: id}, {
+    baseURL: baseUrlApi
+  }),
+  postFormId: (formId) => request.post('/wx/formid/add', {formId: formId}, {
     baseURL: baseUrlApi
   }),
   taskChangeStatus: (id, status) => request.post('/task/changeStatus', {id: id, taskStatus: status}, {

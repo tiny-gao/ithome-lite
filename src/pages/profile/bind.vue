@@ -42,9 +42,7 @@
           success: function (res) {
             if (res.code) {
               var loginParams = { mobileNum: that.addForm.mobileNum, password: that.addForm.password, code: res.code }
-              console.info(loginParams)
               api.getWxSns(loginParams).then(result => {
-                console.info('进行token设置', result)
                 if (result.code !== 200) {
                   wx.showToast({
                     title: result.msg,
@@ -68,7 +66,6 @@
         })
       },
       getUserInfo () {
-        var that = this
         if (store.state.hasLogin === false) {
           wx.login({
             success: _getUserInfo
@@ -83,7 +80,6 @@
             success: function (res) {
               store.state.hasUserInfo = true
               store.state.userInfo = res.userInfo
-              console.info(that.userInfo)
             }
           })
         }

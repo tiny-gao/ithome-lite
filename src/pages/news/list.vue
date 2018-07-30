@@ -3,8 +3,9 @@
   view(class="map_container")
     map(class="map" id="map"  scale="14" :longitude="longitude" :latitude="latitude"  show-location="true"  bindmarkertap="makertap")
   view(class="map_text")
-    button(type="primary" v-on:click="handleClockIn" v-if="!clockIn" formType="submit") 打卡上班
-    button(type="warn" v-on:click="handleClockOut" v-if="clockIn" formType="submit") 下班打卡
+    form(@submit="handleClockIn" report-submit='true')
+      button(type="primary"  v-if="!clockIn" formType="submit") 到点打卡
+      button(type="primary"  v-if="clockIn" formType="submit") 离点打卡
 </template>
 
 <script>
@@ -49,7 +50,6 @@ export default {
       iconPathSelected: '/static/images/marker_checked.png',
       iconPath: '/static/images/marker.png',
       success: function (data) {
-        console.info(data)
         that.markersData = data.markers
         that.markers = that.markersData
         that.latitude = that.markersData[0].latitude
@@ -74,25 +74,30 @@ export default {
       var id = e.markerId
       this.showMarkerInfo(this.markersData, id)
     },
-    handleClockIn: function () {
-      console.info('a')
-      api.getEpsUserInfo().then(result => {
-        console.info('result', result)
-        if (result.code === 200) {
-          this.$store.state.clockIn = true
-          wx.showToast({
-            title: '上班打卡成功!',
-            icon: 'success'
-          })
-        }
-      })
+    handleClockIn: function (e) {
+      console.info('fromId', e.mp.detail.formId)
+      if (this.$store.state.clockIn === true) {
+        this.$store.state.clockIn = false
+        wx.showToast({
+          title: '离点打卡成功!',
+          icon: 'success',
+          success: this.uploadFormId(e.mp.detail.formId)
+        })
+      } else {
+        api.getEpsUserInfo().then(result => {
+          if (result.code === 200) {
+            this.$store.state.clockIn = true
+            wx.showToast({
+              title: '到点打卡成功!',
+              icon: 'success',
+              success: this.uploadFormId(e.mp.detail.formId)
+            })
+          }
+        })
+      }
     },
-    handleClockOut: function () {
-      this.$store.state.clockIn = false
-      wx.showToast({
-        title: '下班打卡成功!',
-        icon: 'success'
-      })
+    async uploadFormId (formid) {
+      await api.postFormId(formid)
     },
     handleReportLocation: function () {
       let _this = this

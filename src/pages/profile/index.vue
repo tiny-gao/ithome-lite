@@ -11,11 +11,10 @@ view(class='container')
         text(class='page-body-text') 未获取
         text(class='page-body-text') 点击绿色按钮获取用户头像和昵称
     view(class="btn-area")
-        button(v-on:click='getUserInfo',type="primary" v-if="!hasUserInfo") 获取用户信息
+        button(v-on:click='getUserInfo' type='primary' v-if="!hasUserInfo" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo") 获取用户信息
         navigator(url="bind" hover-class="navigator-hover")
           button(type="primary" v-if='!hasBind && hasUserInfo') 绑定EPS系统账号
         button(v-if='hasBind' v-on:click='unBind') 解除绑定EPS系统账号
-        button(v-on:click='clear' type="warn" v-if='hasUserInfo') 清空用户信息
 </template>
 
 <script>
@@ -24,6 +23,11 @@ view(class='container')
   import { mapState } from 'vuex'
   import store from '@/store'
   export default {
+    data () {
+      return {
+        canIUse: wx.canIUse('button.open-type.getUserInfo')
+      }
+    },
     computed: {
       ...mapState([
         'userInfo',
@@ -63,7 +67,6 @@ view(class='container')
               store.state.hasUserInfo = true
               store.state.hasLogin = true
               store.state.userInfo = res.userInfo
-              console.info('userInfo', store.state.userInfo)
             }
           })
         }

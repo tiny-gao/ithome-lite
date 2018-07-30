@@ -1,6 +1,12 @@
 <script>
 export default {
-  mpType: 'app'
+  mpType: 'app',
+  onShow: function (options) {
+    console.info('onshow')
+  },
+  onHide: function (options) {
+    console.info('onHide')
+  }
 }
 </script>
 

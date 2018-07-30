@@ -114,7 +114,6 @@ export default new Vuex.Store({
           return result.data
         }
       })
-      console.info(tasks)
       if (!tasks) return
       const formatedTasks = tasks.map(formatTasksList)
       if (init) {
@@ -122,7 +121,6 @@ export default new Vuex.Store({
       } else {
         commit('tasks', state.tasks.concat(formatedTasks))
       }
-      console.info(state.tasks)
     },
     async getTopics ({ state, commit }, init) {
       let replytime = Date.now()

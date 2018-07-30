@@ -8,7 +8,8 @@ div
       span.task-info-text {{task.createAt}}
     .task-info-item(style="position:absolute; right:10px")
       span.task-info-text {{task.worker}}
-  .task-content(v-html="task.content")
+  .task-content
+    div(style="text-align: justify;" v-html="task.content")
 </template>
 
 <script>
@@ -108,6 +109,7 @@ export default {
   width: 100%;
   font-size: 16px;
   padding: 10px;
+  left: 10px;
   line-height: 1.6;
   border-bottom: 1px solid #eee;
   box-sizing: border-box;
