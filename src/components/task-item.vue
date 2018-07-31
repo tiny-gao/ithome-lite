@@ -1,15 +1,14 @@
 <template lang="pug">
-.task-item(@click="turn" @touchstart="touchStart" @touchend="touchEnd")
-  img.task-headimg(v-if="task.status==='CREATE' || task.status==='DISPATCH'" src="/static/assets/task-created.png")
-  img.task-headimg(v-if="task.status==='EXECUTE'" src="/static/assets/task-execute.png")
-  img.task-headimg(v-if="task.status==='EXECUTE_FINISH' || task.status==='TASK_FINISH'" src="/static/assets/task-end.png")
-  .task-title {{task.title}}
-  .task-info
-    .task-info-item @{{task.creator}}
-    .task-info-item(style="margin-left:10px") {{task.createAt}}
-    <!--.task-info-item(style="position:absolute; right:10px")
-      img.task-info-icon(src="/static/assets/quan_comment.png")
-      span.task-info-text 1-->
+form(@submit="turn" report-submit='true')
+  button(style="border: 0; padding: 1px; margin: 1px; outline: none;" plain class='btn' formType="submit" @touchmove="touchEnd" @touchstart="touchStart" @touchend="touchEnd")
+    .task-item
+      img.task-headimg(v-if="task.status==='CREATE' || task.status==='DISPATCH'" src="/static/assets/task-created.png")
+      img.task-headimg(v-if="task.status==='EXECUTE'" src="/static/assets/task-execute.png")
+      img.task-headimg(v-if="task.status==='EXECUTE_FINISH' || task.status==='TASK_FINISH'" src="/static/assets/task-end.png")
+      .task-title {{task.title}}
+      .task-info
+        .task-info-item @{{task.creator}}
+        .task-info-item(style="margin-left:10px") {{task.createAt}}
 </template>
 
 <script>
@@ -27,10 +26,14 @@ export default {
     }
   },
   methods: {
-    turn () {
+    turn: function (e) {
       console.info('turn', this.detail)
-      if (this.detail === false) { return }
-      const { id, title, creator, worker } = this.task
+      if (this.detail === false) {
+        return
+      }
+      const {id, title, creator, worker} = this.task
+      this.uploadFormId(e.mp.detail.formId)
+      console.info('title', title)
       this.$router.push({
         path: '/pages/task/detail',
         query: {
@@ -41,14 +44,15 @@ export default {
         }
       })
     },
+    async uploadFormId (formid) {
+      await api.postFormId(formid)
+    },
     touchStart: function (e) {
-      console.log('long tap')
       clearInterval(this.Loop)
       this.detail = true
       var that = this
       this.Loop = setTimeout(function () {
         that.detail = false
-        console.info('start', that.detail)
         if (that.task.status === 'CREATE' || that.task.status === 'DISPATCH') {
           wx.showModal({
             title: '接单',
@@ -98,10 +102,9 @@ export default {
             }
           })
         }
-      }, 1000)
+      }, 800)
     },
-    touchEnd: function (e) {
-      console.info('end', this.detail)
+    touchEnd: function () {
       clearInterval(this.Loop)
     },
     taskChangeStatus: function (id, status) {
@@ -113,8 +116,9 @@ export default {
 
 <style lang="less" scoped>
 .task-item {
-  padding: 10px 10px 10px 60px;
+  padding: 10px 10px 2px 60px;
   border-bottom: 1px solid #eee;
+  text-align: left;
   position: relative;
 }
 .task-switch {
@@ -133,6 +137,7 @@ export default {
   top: 15px;
 }
 .task-title {
+  line-height: normal;
   font-size: 16px;
 }
 .task-info {

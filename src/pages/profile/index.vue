@@ -11,7 +11,7 @@ view(class='container')
         text(class='page-body-text') 未获取
         text(class='page-body-text') 点击绿色按钮获取用户头像和昵称
     view(class="btn-area")
-        button(v-on:click='getUserInfo' type='primary' v-if="!hasUserInfo" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo") 获取用户信息
+        button(v-on:click='getUserInfo' type='primary' v-if="!hasUserInfo" open-type="getUserInfo" bindgetuserinfo="getUserInfo") 获取用户信息
         navigator(url="bind" hover-class="navigator-hover")
           button(type="primary" v-if='!hasBind && hasUserInfo') 绑定EPS系统账号
         button(v-if='hasBind' v-on:click='unBind') 解除绑定EPS系统账号
@@ -41,6 +41,7 @@ view(class='container')
     methods: {
       getUserInfo () {
         var that = this
+        console.info('hasLogin', that.hasLogin)
         if (that.hasLogin === false) {
           wx.login({
             success: _getUserInfo

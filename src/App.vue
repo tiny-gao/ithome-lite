@@ -1,13 +1,34 @@
 <script>
-export default {
-  mpType: 'app',
-  onShow: function (options) {
-    console.info('onshow')
-  },
-  onHide: function (options) {
-    console.info('onHide')
+  import wx from 'wx'
+  import store from '@/store'
+  export default {
+    mpType: 'app',
+    onShow: function (options) {
+      console.info('appshow')
+      if (wx.getStorageSync('hasLogin')) { store.state.hasLogin = wx.getStorageSync('hasLogin') }
+      if (wx.getStorageSync('token')) { store.state.token = wx.getStorageSync('token') }
+      if (wx.getStorageSync('hasUserInfo')) { store.state.hasUserInfo = wx.getStorageSync('hasUserInfo') }
+      if (wx.getStorageSync('hasBind')) { store.state.hasBind = wx.getStorageSync('hasBind') }
+      if (wx.getStorageSync('userInfo')) { store.state.userInfo = wx.getStorageSync('userInfo') }
+      if (wx.getStorageSync('mobileNum')) { store.state.mobileNum = wx.getStorageSync('mobileNum') }
+      if (wx.getStorageSync('name')) { store.state.name = wx.getStorageSync('name') }
+      if (wx.getStorageSync('clockIn')) { store.state.clockIn = wx.getStorageSync('clockIn') }
+      if (wx.getStorageSync('compileTimeout')) { store.state.compileTimeout = wx.getStorageSync('compileTimeout') }
+    },
+    onHide: function (options) {
+      console.info('apphide')
+      console.info(store.state)
+      wx.setStorageSync('hasLogin', store.state.hasLogin)
+      wx.setStorageSync('token', store.state.token)
+      wx.setStorageSync('hasUserInfo', store.state.hasUserInfo)
+      wx.setStorageSync('hasBind', store.state.hasBind)
+      wx.setStorageSync('userInfo', store.state.userInfo)
+      wx.setStorageSync('mobileNum', store.state.mobileNum)
+      wx.setStorageSync('name', store.state.name)
+      wx.setStorageSync('clockIn', store.state.clockIn)
+      wx.setStorageSync('compileTimeout', store.state.compileTimeout)
+    }
   }
-}
 </script>
 
 <style>

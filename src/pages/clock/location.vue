@@ -5,7 +5,7 @@
   view(class="map_text")
     form(@submit="handleClockIn" report-submit='true')
       button(type="primary"  v-if="!clockIn" formType="submit") 到点打卡
-      button(type="primary"  v-if="clockIn" formType="submit") 离点打卡
+      button(type="warn"  v-if="clockIn" formType="submit") 离点打卡
 </template>
 
 <script>

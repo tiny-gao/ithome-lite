@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+div(v-if="loading")
   .task-title {{task.title}}
   .task-info
     .task-info-item
@@ -14,14 +14,11 @@ div
 
 <script>
 import api from '@/utils/api'
-import commentItem from '@/components/comment-item'
-// import { formatComment } from '@/utils'
 import store from '@/store'
 import { formatTasksList } from '@/utils'
 
 export default {
   components: {
-    commentItem
   },
   data () {
     return {
@@ -34,12 +31,14 @@ export default {
       }
     }
   },
+  onShow () {
+    this.loading = false
+  },
   mounted () {
-    /* Object.assign(this.$data, this.$options.data()) */
+    this.task = {}
     this.getTask()
   },
   onReachBottom () {
-    this.getComments()
   },
   methods: {
     async getTask () {
@@ -48,6 +47,7 @@ export default {
       if (result.code !== 200) {
         return
       }
+      this.loading = true
       const task = result.data
       if (!task) return
       task.content = task.content.replace('--token--', `${store.state.token}`)
@@ -55,18 +55,6 @@ export default {
       this.task = formatTasksList(task)
       console.info('task', this.task)
       this.task.content = task.content
-    },
-    async getComments () {
-      /* if (this.loading) return
-      this.loading = true
-      const { query } = this.$route
-      const comments = this.task.reply
-      const lastComment = comments[comments.length - 1]
-      const newComments = await api.getTaskComments(query.id, lastComment.id)
-      if (!newComments) return
-      const formatedComments = newComments.map(formatComment)
-      this.task.reply = this.task.reply.concat(formatedComments)
-      this.loading = false */
     }
   }
 }

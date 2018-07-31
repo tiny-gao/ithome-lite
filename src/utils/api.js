@@ -1,6 +1,7 @@
 import request from './request'
 
-const baseUrlApi = 'http://192.168.199.120:9091/v1/api'
+const baseUrlApi = 'https://eps.tinygao.cn/v1/api'
+// const baseUrlApi = 'http://192.168.199.120:9091/v1/api'
 const baseUrlDyn = 'https://eps.tinygao.cn'
 const baseUrlQuan = 'https://eps.tinygao.cn/v1/api'
 

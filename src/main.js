@@ -19,7 +19,7 @@ export default {
   // 这个字段走 app.json
   config: {
     pages: [
-      'pages/news/list'
+      'pages/clock/location'
     ], // Will be filled in webpack
     window: {
       backgroundTextStyle: 'light',
@@ -36,7 +36,7 @@ export default {
       borderStyle: 'black',
       list: [
         {
-          pagePath: 'pages/news/list',
+          pagePath: 'pages/clock/location',
           text: '打卡',
           iconPath: 'static/images/home.png',
           selectedIconPath: 'static/images/home-actived.png'

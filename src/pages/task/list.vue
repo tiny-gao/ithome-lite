@@ -17,9 +17,6 @@ export default {
   components: {
     taskItem
   },
-  onShow () {
-    this.refresh()
-  },
   computed: {
     ...mapState([
       'tasks'
