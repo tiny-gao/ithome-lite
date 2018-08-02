@@ -16,8 +16,6 @@
       if (wx.getStorageSync('compileTimeout')) { store.state.compileTimeout = wx.getStorageSync('compileTimeout') }
     },
     onHide: function (options) {
-      console.info('apphide')
-      console.info(store.state)
       wx.setStorageSync('hasLogin', store.state.hasLogin)
       wx.setStorageSync('token', store.state.token)
       wx.setStorageSync('hasUserInfo', store.state.hasUserInfo)

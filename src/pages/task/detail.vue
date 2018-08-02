@@ -24,6 +24,7 @@ export default {
     return {
       loading: false,
       task: {
+        title: '',
         creator: {
           name: '',
           id: ''
@@ -32,7 +33,7 @@ export default {
     }
   },
   onShow () {
-    this.loading = false
+    this.loading = true
   },
   mounted () {
     this.task = {}
